@@ -1,6 +1,36 @@
+/*
+    File:    Book.cpp
+    Author:  Aihotz Arruti
+    Created: December 21, 2023
+    
+    Brief:   Implementation of the JSON serialization functions
+	for the Book and SeriesPart data structures
+*/
+
 #include "Book.hpp"
+
+// serialization of std::vector and std::string
 #include "Serialization.hpp"
 
+// save serialization for the SeriesPart data structure
+nlohmann::json& operator<< (nlohmann::json& j, const SeriesPart& series)
+{
+    j["series_name"] << series.name;
+
+	j["number_integral"] = series.number.integral_part;
+    j["number_decimal"] << series.number.decimal_part;
+}
+
+// load serialization for the SeriesPart data structure
+const nlohmann::json& operator>>(const nlohmann::json& j, SeriesPart& series)
+{
+    j["series_name"] >> series.name;
+
+	series.number.integral_part = j["number_integral"];
+    j["number_decimal"] >> series.number.decimal_part;
+}
+
+// save serialization for the Book data structure
 nlohmann::json& operator<< (nlohmann::json& j, const Book& book)
 {
 	// name
@@ -23,6 +53,7 @@ nlohmann::json& operator<< (nlohmann::json& j, const Book& book)
 	return j;
 }
 
+// load serialization for the Book data structure
 const nlohmann::json& operator>> (const nlohmann::json& j, Book& book)
 {
 	// name

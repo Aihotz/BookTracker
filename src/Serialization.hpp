@@ -1,9 +1,24 @@
+/*
+    File:    Serialization.hpp
+    Author:  Aihotz Arruti
+    Created: December 21, 2023
+    
+    Brief:   Several functions for serializing common data types.
+    Data types include:
+    - std::optional
+    - std::vector
+    - std::string
+*/
+
 #ifndef SERIALIZATION_HPP
 #define SERIALIZATION_HPP
 
+// stl
 #include <optional>
 #include <vector>
 #include <string>
+
+// serialization
 #include "nlohmann/json.hpp"
 
 // std::optional
@@ -18,6 +33,7 @@ template <class T> const nlohmann::json& operator>> (const nlohmann::json& j, st
 nlohmann::json& operator<< (nlohmann::json& j, const std::string& str);
 const nlohmann::json& operator>> (const nlohmann::json& j, std::string& str);
 
+// templated implementation (std::optional, std::vector)
 #include "Serialization.inl"
 
 #endif

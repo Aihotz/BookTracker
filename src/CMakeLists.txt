@@ -6,6 +6,6 @@ set(SRC
 	"Book.cpp"
 	"Date.hpp"
 	"Date.cpp"
-)
+ "Serialization.cpp")
 
 add_executable(${PROJECT_NAME} ${SRC})

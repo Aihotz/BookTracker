@@ -8,6 +8,7 @@
     - std::optional
     - std::vector
     - std::string
+    - int
 */
 
 #ifndef SERIALIZATION_HPP
@@ -32,6 +33,10 @@ template <class T> const nlohmann::json& operator>> (const nlohmann::json& j, st
 // std::string
 nlohmann::json& operator<< (nlohmann::json& j, const std::string& str);
 const nlohmann::json& operator>> (const nlohmann::json& j, std::string& str);
+
+// int
+nlohmann::json& operator<< (nlohmann::json& j, int value);
+const nlohmann::json& operator>> (const nlohmann::json& j, int& value);
 
 // templated implementation (std::optional, std::vector)
 #include "Serialization.inl"

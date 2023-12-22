@@ -7,6 +7,7 @@
     common non-templated data types.
     Data types include:
     - std::string
+    - int
 */
 
 #include "Serialization.hpp"
@@ -27,6 +28,26 @@ nlohmann::json& operator<<(nlohmann::json& j, const std::string& str)
 const nlohmann::json& operator>>(const nlohmann::json& j, std::string& str)
 {
     str = j;
+
+    return j;
+}
+
+// save serialization function for int
+// operator= is defined, but operator>> is used for consistency
+// with other templated data types (such as std::vector)
+nlohmann::json&       operator<<(nlohmann::json& j, int value)
+{
+    j["value"] = value;
+
+    return j;
+}
+
+// load serialization function for int
+// operator= is defined, but operator>> is used for consistency
+// with other templated data types (such as std::vector)
+const nlohmann::json& operator>>(const nlohmann::json& j, int& value)
+{
+    value = j["value"];
 
     return j;
 }

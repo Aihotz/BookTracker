@@ -30,20 +30,22 @@
 #include "Property.hpp"
 
 // whether the user has the book
-enum class ePossession
+enum ePossession
 {
-    NOT_IN_POSSESSION,
-    IN_POSSESSION,
-    DIGITAL_COPY
+    NOT_IN_POSSESSION = 0b00000001,
+    IN_POSSESSION     = 0b00000010,
+    DIGITAL_COPY      = 0b00000100,
 };
 
-enum class eReadStatus
+enum eReadStatus
 {
-    NOT_READ,
-    WANT_TO_READ,
-    READING,
-    READ
+    NOT_READ     = 0b00000001,
+    WANT_TO_READ = 0b00000010,
+    READING      = 0b00000100,
+    READ         = 0b00001000,
 };
+
+static constexpr int ENUM_ALL = 0b11111111;
 
 // used to track book series
 struct SeriesPart
@@ -53,10 +55,10 @@ struct SeriesPart
     // because some books are the #3.5 of a saga....
     struct
     {
-        int integral_part;
+        int                integral_part;
         std::optional<int> decimal_part;
     } number;
-    
+
     // serialization
     friend nlohmann::json&       operator<<(nlohmann::json& j, const SeriesPart& series);
     friend const nlohmann::json& operator>>(const nlohmann::json& j, SeriesPart& series);
@@ -71,15 +73,17 @@ struct Book
     std::vector<SeriesPart> m_series;
 
     // read status(es)
-    Property<eReadStatus> m_read_status;
+    Property<eReadStatus>              m_read_status;
     std::vector<Property<eReadStatus>> m_additional_read_status;
 
     // possession(s)
-    Property<ePossession> m_possession;
+    Property<ePossession>              m_possession;
     std::vector<Property<ePossession>> m_additional_possessions;
 
     // user ratings (if any)
     std::vector<Property<int>> m_ratings;
+
+    void Display() const;
 
     // serialization
     friend nlohmann::json&       operator<<(nlohmann::json& j, const Book& book);
